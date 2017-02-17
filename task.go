@@ -3,21 +3,22 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"io/ioutil"
+	"io/ioutil":
 )
 
 //readBook reads the book at filePath. Keep the at a glabal variable at access it at 'count' and 'query' functions 
 
-var Book[][]string 
+var Book[][]string
 
 func check(e error) {
     if e != nil {
         panic(e)
     }
-}
+} 
 
 func readBook(filePath string) {
-	Book,err := ioutil.ReadFile("book.txt")
+	//	YOUR CODE HERE. Read the book and save it to a global variable, something like `var Book [][]string`
+	Book,err := ioutil.Readfile(filename)
 	check(err)
 }
 func query(w http.ResponseWriter, r *http.Request) {
