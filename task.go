@@ -3,12 +3,11 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"io/ioutil":
+	"io/ioutil"
+	"strings"
 )
 
-//readBook reads the book at filePath. Keep the at a glabal variable at access it at 'count' and 'query' functions 
-
-var Book[][]string
+var Book [][]string
 
 func check(e error) {
     if e != nil {
@@ -17,9 +16,22 @@ func check(e error) {
 } 
 
 func readBook(filePath string) {
-	//	YOUR CODE HERE. Read the book and save it to a global variable, something like `var Book [][]string`
 	dat,err := ioutil.Readfile(filename)
 	check(err)
+	var chapParsed []string = strings.Split(string(dat),"Chapter ") //parsing the text into its chapters
+	for i := 0; i <= len(chapParsed) - 2; i++ {
+		var paragParsedRaw []string = strings.Split(chapParsed[i+1], "\n\n") //parsing the text into its paragraphs, but there will be blank paragraphs as well
+		var paragParsed []string
+		var index int = 0
+		for j := 1; j <= len(paragParsedRaw) - 1; j++ {
+			if !string.ContainsAny(paragParsedRaw[j], "* * * * *") && len(paragParsedRaw[j] != 0) {
+				paragParsed[index] = paragParsedRaw[j]
+				index++
+			}			
+		}
+		Book[i] = paragParsed
+	}
+	 
 }
 func query(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
@@ -32,11 +44,11 @@ func query(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, result)
 }
 func count(w http.ResponseWriter, r *http.Request) {
-	chapCount := 0
+	chapCount := len(Book)
 	paraCount := 0
-	/*
-		YOUR CODE HERE
-	*/
+	for i:= 0; i <= chapCount - 1; i++ {
+		paraCount += len(Book[i])
+	}
 	fmt.Fprintf(w, "chapter: %d\nparagraph: %d\n", chapCount, paraCount)
 }
 func otherwise(w http.ResponseWriter, r *http.Request) {
