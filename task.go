@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"io/ioutil"
 	"strings"
+	"strconv"
 )
 
 var Book [][]string
@@ -38,9 +39,14 @@ func query(w http.ResponseWriter, r *http.Request) {
 	c := q.Get("c") //Get Chapter from url as string. you have to convert it to int by using strconv.Atoi
 	p := q.Get("p") //Get Paragraph from url as string, you have to convert it to int
 	result := ""
-	/*
-		YOUR CODE HERE
-	*/
+	chap,_:= strconv.Atoi(c)
+	if len(p) == 0 { //only chapter is requested
+		result = Book[chap-1]
+	}
+	else {
+		para,_:= strconv.Atoi(p)
+		result = Book[chap-1][para-1] 	
+	}
 	fmt.Fprint(w, result)
 }
 func count(w http.ResponseWriter, r *http.Request) {
