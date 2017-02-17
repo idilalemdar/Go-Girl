@@ -18,7 +18,7 @@ func check(e error) {
 
 func readBook(filePath string) {
 	//	YOUR CODE HERE. Read the book and save it to a global variable, something like `var Book [][]string`
-	Book,err := ioutil.Readfile(filename)
+	dat,err := ioutil.Readfile(filename)
 	check(err)
 }
 func query(w http.ResponseWriter, r *http.Request) {
