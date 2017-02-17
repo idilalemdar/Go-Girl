@@ -17,7 +17,7 @@ func check(e error) {
 } 
 
 func readBook(filePath string) {
-	dat,err := ioutil.Readfile(filename)
+	dat,err := ioutil.ReadFile(filePath)
 	check(err)
 	var chapParsed []string = strings.Split(string(dat),"Chapter ") //parsing the text into its chapters
 	for i := 0; i <= len(chapParsed) - 2; i++ {
@@ -25,14 +25,13 @@ func readBook(filePath string) {
 		var paragParsed []string
 		var index int = 0
 		for j := 1; j <= len(paragParsedRaw) - 1; j++ {
-			if !string.ContainsAny(paragParsedRaw[j], "* * * * *") && len(paragParsedRaw[j] != 0) {
+			if !strings.ContainsAny(paragParsedRaw[j], "* * * * *") && len(paragParsedRaw[j]) != 0 {
 				paragParsed[index] = paragParsedRaw[j]
 				index++
 			}			
 		}
 		Book[i] = paragParsed
 	}
-	 
 }
 func query(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
@@ -41,9 +40,10 @@ func query(w http.ResponseWriter, r *http.Request) {
 	result := ""
 	chap,_:= strconv.Atoi(c)
 	if len(p) == 0 { //only chapter is requested
-		result = Book[chap-1]
-	}
-	else {
+	/*	for i := 0; i <= len(Book[chap-1]-1; i++ {
+			
+		} */ //will be completed later
+	} else {
 		para,_:= strconv.Atoi(p)
 		result = Book[chap-1][para-1] 	
 	}
