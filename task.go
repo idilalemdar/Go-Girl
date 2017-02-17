@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 )
-// Bu kodu çalıştırmak için command line'dan `go run task.go` çalıştırman yeterli.
 
 //readBook reads the book at filePath. Keep the at a glabal variable at access it at 'count' and 'query' functions 
 func readBook(filePath string) {
