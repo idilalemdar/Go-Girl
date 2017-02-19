@@ -20,17 +20,15 @@ func readBook(filePath string) {
 	dat,err := ioutil.ReadFile(filePath)
 	check(err)
 	var chapParsed []string = strings.Split(string(dat),"Chapter ") //parsing the text into its chapters
-	for i := 0; i <= len(chapParsed) - 2; i++ {
-		var paragParsedRaw []string = strings.Split(chapParsed[i+1], "\n\n") //parsing the text into its paragraphs, but there will be blank paragraphs as well
-		var paragParsed []string
+	for i := 1; i <= len(chapParsed) - 1; i++ {
+		var paragParsed []string = strings.Split(chapParsed[i+1], "\n\n") 
 		var index int = 0
-		for j := 1; j <= len(paragParsedRaw) - 1; j++ {
-			if !strings.ContainsAny(paragParsedRaw[j], "* * * * *") && len(paragParsedRaw[j]) != 0 {
-				paragParsed[index] = paragParsedRaw[j]
+		for j := 1; j <= len(paragParsed) - 1; j++ {
+			if len(paragParsed[j]) != 0 {
+				Book[i][index] = paragParsed[j]
 				index++
 			}			
 		}
-		Book[i] = paragParsed
 	}
 }
 func query(w http.ResponseWriter, r *http.Request) {
@@ -39,12 +37,10 @@ func query(w http.ResponseWriter, r *http.Request) {
 	p := q.Get("p") //Get Paragraph from url as string, you have to convert it to int
 	result := ""
 	chap,_:= strconv.Atoi(c)
-	if len(p) == 0 { //only chapter is requested
-	/*	for i := 0; i <= len(Book[chap-1]-1; i++ {
-			
-		} */ //will be completed later
+	para,err:= strconv.Atoi(p)
+	if err != nil { //only chapter is requested
+		result = strings.Join(Book[chap-1], "\n\n")
 	} else {
-		para,_:= strconv.Atoi(p)
 		result = Book[chap-1][para-1] 	
 	}
 	fmt.Fprint(w, result)
