@@ -27,11 +27,10 @@ func readBook(filePath string) {
 		//parsing the chapter into its paragraphs, first elements will be the chapter number
 		//paragParsed may contain empty strings
 		var index int = 0
-		Book[i-1] = make([]string, len(paragParsed) - 1)
 		for j := 1; j <= len(paragParsed) - 1; j++ { 
 			if len(paragParsed[j]) != 0 {
-				Book[i-1][index] = paragParsed[j]
-				index++			
+				Book[i-1] = append(Book[i-1], paragParsed[j])
+				index++		
 			}			
 		}
 	}
