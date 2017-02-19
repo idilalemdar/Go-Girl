@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-var Book [][]string //first dimension of the 2D array is chapters, second dimension is paragraphs
+var Book [][]string //first dimension of the 2D slice is chapters, second dimension is paragraphs
 
 func check(e error) {
     if e != nil {
@@ -21,19 +21,21 @@ func readBook(filePath string) {
 	check(err)
 	var chapParsed []string = strings.Split(string(dat),"Chapter ") 
 	//parsing the text into its chapters, first element will be empty string
+	Book = make([][]string, len(chapParsed)-1)
 	for i := 1; i <= len(chapParsed) - 1; i++ {
 		var paragParsed []string = strings.Split(chapParsed[i], "\n\n") 
 		//parsing the chapter into its paragraphs, first elements will be the chapter number
 		//paragParsed may contain empty strings
 		var index int = 0
+		Book[i-1] = make([]string, len(paragParsed) - 1)
 		for j := 1; j <= len(paragParsed) - 1; j++ { 
 			if len(paragParsed[j]) != 0 {
 				Book[i-1][index] = paragParsed[j]
-				index++
-			}			
+				index++			}			
 		}
 	}
 }
+
 func query(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 	c := q.Get("c") 
