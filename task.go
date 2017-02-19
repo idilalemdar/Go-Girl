@@ -21,11 +21,11 @@ func readBook(filePath string) {
 	check(err)
 	var chapParsed []string = strings.Split(string(dat),"Chapter ") //parsing the text into its chapters
 	for i := 1; i <= len(chapParsed) - 1; i++ {
-		var paragParsed []string = strings.Split(chapParsed[i+1], "\n\n") 
+		var paragParsed []string = strings.Split(chapParsed[i], "\n\n") 
 		var index int = 0
 		for j := 1; j <= len(paragParsed) - 1; j++ {
 			if len(paragParsed[j]) != 0 {
-				Book[i][index] = paragParsed[j]
+				Book[i-1][index] = paragParsed[j]
 				index++
 			}			
 		}
