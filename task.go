@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-var Book [][]string
+var Book [][]string //first dimension of the 2D array is chapters, second dimension is paragraphs
 
 func check(e error) {
     if e != nil {
@@ -19,11 +19,14 @@ func check(e error) {
 func readBook(filePath string) {
 	dat,err := ioutil.ReadFile(filePath)
 	check(err)
-	var chapParsed []string = strings.Split(string(dat),"Chapter ") //parsing the text into its chapters
+	var chapParsed []string = strings.Split(string(dat),"Chapter ") 
+	//parsing the text into its chapters, first element will be empty string
 	for i := 1; i <= len(chapParsed) - 1; i++ {
 		var paragParsed []string = strings.Split(chapParsed[i], "\n\n") 
+		//parsing the chapter into its paragraphs, first elements will be the chapter number
+		//paragParsed may contain empty strings
 		var index int = 0
-		for j := 1; j <= len(paragParsed) - 1; j++ {
+		for j := 1; j <= len(paragParsed) - 1; j++ { 
 			if len(paragParsed[j]) != 0 {
 				Book[i-1][index] = paragParsed[j]
 				index++
@@ -33,8 +36,8 @@ func readBook(filePath string) {
 }
 func query(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
-	c := q.Get("c") //Get Chapter from url as string. you have to convert it to int by using strconv.Atoi
-	p := q.Get("p") //Get Paragraph from url as string, you have to convert it to int
+	c := q.Get("c") 
+	p := q.Get("p")
 	result := ""
 	chap,_:= strconv.Atoi(c)
 	para,err:= strconv.Atoi(p)
