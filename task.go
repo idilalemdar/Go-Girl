@@ -31,7 +31,8 @@ func readBook(filePath string) {
 		for j := 1; j <= len(paragParsed) - 1; j++ { 
 			if len(paragParsed[j]) != 0 {
 				Book[i-1][index] = paragParsed[j]
-				index++			}			
+				index++			
+			}			
 		}
 	}
 }
